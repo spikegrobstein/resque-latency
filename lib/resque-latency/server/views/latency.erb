@@ -20,7 +20,7 @@
     <td class='queue'><%= queue %></td>
     <td class='size'><%= resque.size queue %></td>
     <td class='latency'><%= resque.latency queue %></td>
-    <td class='latency_updated_at time'>
+    <td class='latency_updated_at <%= latency_updated_at > 1.hour.ago ? 'time' : '' %>'>
       <%= latency_updated_at.strftime("%Y/%m/%d %H:%M:%S %Z") %>
     </td>
   </tr>
