@@ -1,3 +1,5 @@
+require 'resque/server'
+
 module ResqueLatency
   module Server
 
@@ -5,7 +7,7 @@ module ResqueLatency
       base.class_eval do
 
         get '/latency' do
-          "success!"
+          erb File.read(File.join(File.dirname(__FILE__), 'server/views/latency.erb'))
         end
 
       end
@@ -16,5 +18,5 @@ module ResqueLatency
 end
 
 Resque::Server.class_eval do
-  include ResqeueLatency::Server
+  include ResqueLatency::Server
 end

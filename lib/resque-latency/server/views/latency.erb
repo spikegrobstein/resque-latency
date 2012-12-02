@@ -1,0 +1,19 @@
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Count</th>
+      <th>Latency</th>
+      <th>Since</th>
+    </tr>
+  </thead>
+  <tbody>
+<% Resque.queues.sort_by { |q| q.to_s }.each do |queue| %>
+  <tr>
+    <td><%= queue %></td>
+    <td><%= resque.size queue %></td>
+    <td><%= resque.latency queue %></td>
+    <td><%= resque.latency_updated_at queue %></td>
+  </tr>
+<% end %>
+
