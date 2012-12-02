@@ -19,7 +19,13 @@
     <td class='queue'><%= queue %></td>
     <td class='size'><%= resque.size queue %></td>
     <td class='latency'><%= resque.latency queue %></td>
-    <td class='latency_updated_at'><%= resque.latency_updated_at(queue).strftime('%F %r') %></td>
+    <td class='latency_updated_at'>
+      <% if resque.latency_updated_at(queue) < 1.hour.ago %>
+        <%= resque.latency_updated_at(queue).strftime('%F %r') %>
+      <% else %>
+        <%= Time.now.to_i - resque.latency_updated_at(queue).to_i %> seconds
+      <% end %>
+    </td>
   </tr>
 <% end %>
   </tbody>
