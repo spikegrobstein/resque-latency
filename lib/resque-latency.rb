@@ -1,4 +1,5 @@
 require "resque-latency/version"
+require 'resque-latency/server'
 
 module Resque
 
@@ -31,7 +32,4 @@ module Resque
     redis.get("latency:#{queue}").to_i
   end
 
-  module Latency
-    # Your code goes here...
-  end
 end

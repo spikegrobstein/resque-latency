@@ -1,6 +1,17 @@
 module ResqueLatency
   module Server
 
+    def self.included(base)
+      base.class_eval do
+
+        get '/latency' do
+          "success!"
+        end
+
+      end
+    end
+
+    Resque::Server.tabs << 'Latency'
   end
 end
 

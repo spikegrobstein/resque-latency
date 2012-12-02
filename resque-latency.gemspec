@@ -8,8 +8,8 @@ Gem::Specification.new do |gem|
   gem.version       = Resque::Latency::VERSION
   gem.authors       = ["Spike Grobstein"]
   gem.email         = ["me@spike.cx"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
+  gem.description   = %q{Add a latency metric to queues}
+  gem.summary       = %q{Add a latency metric to queues}
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($/)
