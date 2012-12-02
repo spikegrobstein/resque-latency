@@ -16,20 +16,21 @@ module Resque
   end
 
   def Job.new(queue, payload)
-    # ap redis
-    # ap payload
-
     # latency queue: resque:latency:queue_name
     key = ['latency', queue].join(':')
     latency = Time.now.utc.to_i - payload['timestamp'].to_i
 
-    redis.set key, latency.to_s
+    redis.set key, [ latency.to_s, Time.now.utc.to_i ].join(':')
 
     super
   end
 
   def latency(queue)
-    redis.get("latency:#{queue}").to_i
+    redis.get("latency:#{queue}").split(':').first.to_i
+  end
+
+  def latency_updated_at(queue)
+    Time.at(redis.get("latency:#{queue}").split(':').last.to_i)
   end
 
 end
