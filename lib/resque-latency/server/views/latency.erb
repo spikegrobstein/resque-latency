@@ -19,7 +19,7 @@
     <td class='queue'><%= queue %></td>
     <td class='size'><%= resque.size queue %></td>
     <td class='latency'><%= resque.latency queue %></td>
-    <td class='latency_updated_at'><%= resque.latency_updated_at(queue) %></td>
+    <td class='latency_updated_at'><%= resque.latency_updated_at(queue).strftime('%F %r') %></td>
   </tr>
 <% end %>
   </tbody>
