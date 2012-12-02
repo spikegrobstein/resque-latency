@@ -20,6 +20,9 @@ module Resque
     key = ['latency', queue].join(':')
     latency = Time.now.utc.to_i - payload['timestamp'].to_i
 
+    # store the latency of this job in seconds and the current timestamp in the key
+    # timestamp is stored in seconds since epoch UTC.
+    # delimited by :
     redis.set key, [ latency.to_s, Time.now.utc.to_i ].join(':')
 
     super
