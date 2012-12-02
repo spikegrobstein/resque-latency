@@ -1,4 +1,10 @@
-<table>
+<h1 class='wi'>Queue Latency</h1>
+<p class='intro'>
+  The list below shows the queues, number of items in each queue and their respective
+  latencies (in seconds) and the last time the latency was updated.
+</p>
+
+<table class='queues'>
   <thead>
     <tr>
       <th>Name</th>
@@ -10,10 +16,12 @@
   <tbody>
 <% Resque.queues.sort_by { |q| q.to_s }.each do |queue| %>
   <tr>
-    <td><%= queue %></td>
-    <td><%= resque.size queue %></td>
-    <td><%= resque.latency queue %></td>
-    <td><%= resque.latency_updated_at queue %></td>
+    <td class='queue'><%= queue %></td>
+    <td class='size'><%= resque.size queue %></td>
+    <td class='latency'><%= resque.latency queue %></td>
+    <td class='latency_updated_at'><%= resque.latency_updated_at(queue) %></td>
   </tr>
 <% end %>
+  </tbody>
+</table>
 
