@@ -3,6 +3,8 @@ require 'resque-latency/server'
 
 module Resque
 
+  # monkey-patch Job.create
+  # This will include a `timestamp` key on the payload of every job that gets queued
   def Job.create(queue, klass, *args)
     Resque.validate(klass, queue)
 
@@ -15,6 +17,12 @@ module Resque
     end
   end
 
+  # monkey-patch Job.new
+  # This will pull the `timestamp` field out of the payload
+  # and calculate the latency of the queue and store it in a new key:
+  # resque:latency:QUEUE_NAME
+  # latency is stored as seconds from queueing to picking the job up
+  # and the timestamp that it was last updated.
   def Job.new(queue, payload)
     # latency queue: resque:latency:queue_name
     key = ['latency', queue].join(':')
@@ -28,10 +36,12 @@ module Resque
     super
   end
 
+  # return the latency, in seconds, of the given queue
   def latency(queue)
     redis.get("latency:#{queue}").split(':').first.to_i
   end
 
+  # return the Time of the last time this latency metric was updated.
   def latency_updated_at(queue)
     Time.at(redis.get("latency:#{queue}").split(':').last.to_i)
   end
