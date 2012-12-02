@@ -10,6 +10,11 @@ module ResqueLatency
           erb File.read(File.join(File.dirname(__FILE__), 'server/views/latency.erb'))
         end
 
+        get '/latency.poll' do
+          @polling = true
+          erb File.read(File.join(File.dirname(__FILE__), 'server/views/latency.erb')), { :layout => false }
+        end
+
       end
     end
 
