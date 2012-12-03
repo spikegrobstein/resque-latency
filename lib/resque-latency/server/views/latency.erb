@@ -20,8 +20,12 @@
     <td class='queue'><%= queue %></td>
     <td class='size'><%= resque.size queue %></td>
     <td class='latency'><%= resque.latency queue %></td>
-    <td class='latency_updated_at <%= latency_updated_at > 1.hour.ago ? 'time' : '' %>'>
-      <%= latency_updated_at.strftime("%Y/%m/%d %H:%M:%S %Z") %>
+    <td class='latency_updated_at <%= (!latency_updated_at.nil? && (latency_updated_at > 1.hour.ago)) ? 'time' : '' %>'>
+      <% if latency_updated_at.nil? %>
+        n/a
+      <% else %>
+        <%= latency_updated_at.strftime("%Y/%m/%d %H:%M:%S %Z") %>
+      <% end %>
     </td>
   </tr>
 <% end %>
