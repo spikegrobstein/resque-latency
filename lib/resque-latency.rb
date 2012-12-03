@@ -38,12 +38,20 @@ module Resque
 
   # return the latency, in seconds, of the given queue
   def latency(queue)
-    redis.get("latency:#{queue}").split(':').first.to_i
+    l = redis.get("latency:#{queue}")
+
+    return nil if l.nil?
+
+    l.split(':').first.to_i
   end
 
   # return the Time of the last time this latency metric was updated.
   def latency_updated_at(queue)
-    Time.at(redis.get("latency:#{queue}").split(':').last.to_i)
+    l = redis.get("latency:#{queue}")
+
+    return nil if l.nil?
+
+    Time.at(l.split(':').last.to_i)
   end
 
 end
