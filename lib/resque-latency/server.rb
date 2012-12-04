@@ -15,6 +15,20 @@ module ResqueLatency
           erb File.read(File.join(File.dirname(__FILE__), 'server/views/latency.erb')), { :layout => false }
         end
 
+        get '/latency.json' do
+          content_type 'application/json'
+
+          r = {}
+          Resque.queues.each do |queue|
+            r[queue] = {
+              :latency => Resque.latency(queue),
+              :last_updated_at => Resque.latency_updated_at(queue)
+            }
+          end
+
+          r.to_json
+        end
+
       end
     end
 
