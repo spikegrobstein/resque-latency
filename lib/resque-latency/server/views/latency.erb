@@ -15,19 +15,23 @@
   </thead>
   <tbody>
 <% Resque.queues.sort_by { |q| q.to_s }.each do |queue| %>
-  <% latency_updated_at = resque.latency_updated_at(queue) %>
+  <%
+    latency = resque.latency(queue)
+    latency_updated_at = resque.latency_updated_at(queue)
+    latency_seconds = "%.02d:%.02d" % [ (latency / 60), (latency % 60) ]
+  %>
   <tr>
     <td class='queue'><%= queue %></td>
     <td class='size'><%= resque.size queue %></td>
-    <td class='latency'><%= resque.latency queue %></td>
+
+    <td class='latency' title="<%= latency %>"><%= latency_seconds %></td>
+
     <td class='latency_updated_at <%= (!latency_updated_at.nil? && (latency_updated_at > 1.hour.ago)) ? 'time' : '' %>'>
       <% if latency_updated_at.nil? %>
         n/a
       <% else %>
         <%= latency_updated_at.strftime("%Y/%m/%d %H:%M:%S %Z") %>
       <% end %>
-    </td>
-  </tr>
 <% end %>
   </tbody>
 </table>
