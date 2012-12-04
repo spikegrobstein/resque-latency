@@ -21,7 +21,9 @@
     latency_seconds = "%.02d:%.02d" % [ (latency / 60), (latency % 60) ]
   %>
   <tr>
-    <td class='queue'><%= queue %></td>
+    <td class='queue'>
+      <a class='queue' href="<%= u "queues/#{queue}" %>"><%= queue %></a>
+    </td>
     <td class='size'><%= resque.size queue %></td>
 
     <td class='latency' title="<%= latency %>"><%= latency_seconds %></td>
