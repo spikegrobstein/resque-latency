@@ -44,7 +44,9 @@ module Resque
 
     l = l.split(':').first.to_i
 
-    (l > 0) ? l : 0
+    return 0 if l <= 0
+
+    l
   end
 
   # return the Time of the last time this latency metric was updated.
