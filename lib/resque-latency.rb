@@ -36,26 +36,21 @@ module Resque
     super
   end
 
+  def latest_job_timestamp(queue)
+    latest_job = Resque.peek(queue,0,0)
+    if latest_job.any?
+      latest_job[0]['timestamp'].to_i
+    else
+      Time.now.utc.to_i
+    end
+  end
   # return the latency, in seconds, of the given queue
   def latency(queue)
-    l = redis.get("latency:#{queue}")
-
-    return nil if l.nil?
-
-    l = l.split(':').first.to_i
-
-    return 0 if l <= 0
-
-    l
+    Time.now.utc.to_i - latest_job_timestamp(queue)
   end
 
   # return the Time of the last time this latency metric was updated.
   def latency_updated_at(queue)
-    l = redis.get("latency:#{queue}")
-
-    return nil if l.nil?
-
-    Time.at(l.split(':').last.to_i)
+    Time.now
   end
-
 end
